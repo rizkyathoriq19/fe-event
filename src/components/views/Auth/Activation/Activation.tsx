@@ -2,8 +2,13 @@ import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-const RegisterSuccess = () => {
+interface PropTypes {
+  status: "success" | "failed";
+}
+
+const Activation = (props: PropTypes) => {
   const router = useRouter();
+  const { status } = props;
   return (
     <div className="flex w-screen flex-col items-center justify-center gap-10 p-4">
       <div className="flex flex-col items-center justify-center gap-10">
@@ -14,24 +19,30 @@ const RegisterSuccess = () => {
           height={180}
         />
         <Image
-          src="/images/illustration/success.svg"
-          alt="success"
+          src={
+            status === "success"
+              ? "/images/illustration/success.svg"
+              : "/images/illustration/pending.svg"
+          }
+          alt={status === "success" ? "success" : "failed"}
           width={300}
           height={300}
         />
       </div>
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-3xl font-bold text-danger-500">
-          Create Account Success
+          {status === "success" ? "Activation Success" : "Activation Failed"}
         </h1>
         <p className="text-xl font-bold text-default-500">
-          check your email for account activation
+          {status === "success"
+            ? "Thank you for register account in Acara"
+            : "Confirmation code is invalid"}
         </p>
         <Button
           className="mt-4 w-fit"
           variant="bordered"
           color="danger"
-          onClick={() => router.push("/")}
+          onPress={() => router.push("/")}
         >
           Back To Home
         </Button>
@@ -40,4 +51,4 @@ const RegisterSuccess = () => {
   );
 };
 
-export default RegisterSuccess;
+export default Activation;
